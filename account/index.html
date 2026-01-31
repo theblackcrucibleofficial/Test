@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Login</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f4f9;
+            transition: background-color 0.6s ease; 
+            display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; 
+        }
+        #loginBox { 
+            padding: 30px; border-radius: 12px; background: white; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
+        }
+        input { display: block; margin: 15px 0; padding: 12px; width: 220px; border: 1px solid #ddd; border-radius: 6px; }
+        button { 
+            width: 100%; padding: 12px; cursor: pointer; background: #333; color: white; 
+            border: none; border-radius: 6px; font-weight: bold; 
+        }
+        button:hover { background: #555; }
+        #message { color: #e74c3c; margin-top: 15px; font-weight: bold; min-height: 20px; }
+        .success-content { display: none; color: white; text-align: center; font-size: 3rem; }
+    </style>
+</head>
+<body id="pageBody">
+
+    <div id="loginBox">
+        <h2 style="margin-top:0;">Secure Access</h2>
+        <input type="text" id="userInput" placeholder="Username">
+        <input type="password" id="passInput" placeholder="Password">
+        <button onclick="validate()">Login</button>
+        <p id="message"></p>
+    </div>
+
+    <div id="successContent" class="success-content">
+        <h1>ACCESS GRANTED</h1>
+    </div>
+
+    <script>
+        function validate() {
+            // Edit these values
+            const secretUser = "admin";
+            const secretPass = "password123";
+
+            const u = document.getElementById('userInput').value;
+            const p = document.getElementById('passInput').value;
+            const msg = document.getElementById('message');
+            const body = document.getElementById('pageBody');
+            const box = document.getElementById('loginBox');
+            const success = document.getElementById('successContent');
+
+            if (u === secretUser && p === secretPass) {
+                body.style.backgroundColor = "#27ae60"; // The Green Turn
+                box.style.display = "none";
+                success.style.display = "block";
+            } else {
+                msg.textContent = "Try again:";
+                // Optional: clear password field on fail
+                document.getElementById('passInput').value = "";
+            }
+        }
+    </script>
+</body>
+</html>
