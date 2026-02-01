@@ -5,11 +5,11 @@
   The author does not condone, encourage, or support the use of this tool for:        
   - Brute-forcing passwords or unauthorized access to systems.                        
   - Performing Denial of Service (DoS) or Distributed Denial of Service (DDoS) attacks. 
-  - Any form of illegal cyber activity or disruption of services.                     
+   - Any form of illegal cyber activity or disruption of services.                     
                                                                                       
   The user is 100% responsible for their actions. Always ensure you have explicit,     
   written permission before testing the security of any system or network.            
-
+                                                                                      
 #
 
 # Requests V1.2 - URL Connectivity & Response Tester
@@ -40,14 +40,14 @@ Using the browser Inspector on the target site (https://theblackcrucibleofficial
 
 ### 3. Configuring the Credential Test
 In the Configuration Window for the `/account/` path:
-1. **BOX 1 (Parameter):** Enter `username` (matching the "Username" placeholder logic).
-2. **BOX 2 (Values):** Enter the values for the "Password" placeholder box.
+1. **BOX 1 (Parameter):** Enter `username` (matching the "Username" placeholder box).
+2. **BOX 2 (Parameter):** Enter `Password` (matching the "Password" placeholder box).
 3. **Flag / Retry Condition:** Enter `Try again:` into the text box.
    - This tells the tool: "If the response contains 'Try again:', the login attempt failed."
 
 ### 4. Running the Test
 1. Click **Save**, then click **Test / Fuzz**.
-2. The tool will input the username and password into the respective boxes based on the site's placeholders.
+2. The tool will input the username and password into the respective fields based on the site's structure.
 3. When the tool sends the correct credentials (`admin` and `password123`), the "Try again:" text will not be found in the response.
 4. The tool will then swap the status to **[CORRECT]** in Gold Impact Bold.
 
