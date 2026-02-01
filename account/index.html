@@ -52,11 +52,10 @@
                 document.getElementById('pageBody').style.backgroundColor = "#27ae60";
                 document.getElementById('loginBox').style.display = "none";
                 document.getElementById('successContent').style.display = "block";
-                // Clear any previous error messages on success
                 msg.textContent = ""; 
             } else {
-            //test
-                const err = atob("VHJ5IGFnYWluOg==");
+                // We removed atob so the fuzzer can read the text directly in the script
+                const err = "Try again:"; 
                 msg.textContent = err;
                 document.getElementById('passInput').value = "";
             }
