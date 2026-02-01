@@ -204,117 +204,46 @@ def open_config_window(url_label):
 
     def start_fuzz_test():
         save_config()
-        cfg_now = url_configs.get(full_url, {})
-        if not cfg_now:
-            messagebox.showwarning("Missing", "No configuration saved")
-            return
+        cfg = url_configs.get(full_url, {})
+        if not cfg: return
 
-        param = cfg_now.get("box1", "")
-        p1_preset = cfg_now.get("p1", "N")
-        box1_path = cfg_now.get("box1_path", "")
-        p2_preset = cfg_now.get("p2", "N")
-        wordlist_path = cfg_now.get("wordlist_path", "")
-        min_len = cfg_now["min_len"]
-        max_len = cfg_now["max_len"]
-        use_num = cfg_now["numbers"]
-        use_cap = cfg_now["capitals"]
-        use_sym = cfg_now["symbols"]
-        retry_if_contains = cfg_now["retry_text"].lower().split("|") if cfg_now.get("retry_text") else []
+        # Setup parameters and flags
+        retry_keywords = [k.strip().lower() for k in cfg.get("retry_text", "").split("|") if k.strip()]
+        keys = [cfg.get("box1", "")] 
+        values = [line.strip() for line in open(cfg["wordlist_path"])] if cfg.get("wordlist_path") else ["password123"]
+        
+        text_output.insert(tk.END, f"\nFuzzing {full_url}...\n", "header")
+        attempt = 0
 
-        # How many attempts
-        ATTEMPT_COUNT = 40
-
-        text_output.insert(tk.END, f"\nFuzzing {full_url}  →  {param}=...   ({ATTEMPT_COUNT} attempts)\n", "header")
-
-        keys = []   # BOX 1 values (parameter names or fixed values)
-        values = [] # BOX 2 values (payloads)
-
-        # ── Load BOX 1 ───────────────────────────────────────
-        if box1_path and p1_preset == "N":
-            try:
-                with open(box1_path, encoding="utf-8", errors="ignore") as f:
-                    keys = [line.strip() for line in f if line.strip()]
-                text_output.insert(tk.END, f"Loaded {len(keys)} keys/parameters from BOX 1 file\n")
-            except Exception as e:
-                text_output.insert(tk.END, f"BOX 1 file error: {e}\n", "error")
-                keys = []
-        else:
-            if param:
-                keys = [param]  # single value from entry
-            else:
-                text_output.insert(tk.END, "No BOX 1 value or file provided\n", "error")
-                return
-
-        # ── Load BOX 2 ───────────────────────────────────────
-        if wordlist_path and p2_preset == "N":
-            try:
-                with open(wordlist_path, encoding="utf-8", errors="ignore") as f:
-                    values = [line.strip() for line in f if line.strip()]
-                text_output.insert(tk.END, f"Loaded {len(values)} values from wordlist\n")
-            except Exception as e:
-                text_output.insert(tk.END, f"Wordlist error: {e}\n", "error")
-                values = []
-
-        if not values:
-            text_output.insert(tk.END, f"Generating values (preset: {p2_preset})\n")
-            for _ in range(ATTEMPT_COUNT):
-                val = generate_value(
-                    p2_preset if p2_preset != "N" else "alphanum",
-                    min_len, max_len, use_num, use_cap, use_sym
-                )
-                values.append(val)
-
-        if not keys or not values:
-            text_output.insert(tk.END, "Cannot fuzz — missing keys or values\n", "error")
-            return
-
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-
-        with httpx.Client(headers=headers, timeout=10.0, follow_redirects=True) as client:
-            attempt = 0
+        with httpx.Client(timeout=10.0, follow_redirects=True) as client:
             for key in keys:
                 for value in values:
                     attempt += 1
-                    if attempt > ATTEMPT_COUNT * 2:  # safety limit
-                        break
-
                     try:
-                        query = urlencode({key: value})
-                        test_url = f"{full_url}?{query}" if "?" not in full_url else f"{full_url}&{query}"
-
-                        r = client.get(test_url)
-                        status = r.status_code
+                        # Construct URL and request
+                        r = client.get(f"{full_url}?{urlencode({key: value})}")
+                        content = r.text.lower()
                         size = len(r.content) / 1024.0
-
-                        line = f"[{attempt:2d}] {status:3d}  {size:5.1f} KB   {key}={value[:40]}"
-
-                        flagged = any(kw.strip() in r.text.lower() for kw in retry_if_contains if kw.strip())
-
-                        if status == 200:
-                            if flagged:
-                                text_output.insert(tk.END, line + "   [FLAGGED]\n", "ok")
-                            else:
-                                # SWAP FLAG FOR CORRECT + GOLD IMPACT
-                                text_output.insert(tk.END, line + "   [CORRECT]\n", "gold")
-                        elif status in (401, 403):
-                            text_output.insert(tk.END, line + "  (auth?)\n", "error")
-                        else:
-                            text_output.insert(tk.END, line + "\n")
+                        
+                        # Logic Check: Was it flagged?
+                        flagged = any(kw in content for kw in retry_keywords)
+                        line = f"[{attempt:2d}] {r.status_code}  {size:5.1f} KB   {key}={value}"
 
                         if flagged:
-                            text_output.insert(tk.END, f"   → Retry condition matched: {r.text[:120]}...\n", "error")
+                            text_output.insert(tk.END, line + "   [FLAGGED]\n", "ok")
+                            text_output.insert(tk.END, f"   → Match: {retry_keywords}\n", "error")
+                        else:
+                            # SUCCESS: No failure keywords found in the response
+                            text_output.insert(tk.END, line + "   [CORRECT]\n", "gold")
 
                     except Exception as e:
-                        text_output.insert(tk.END, f"[{attempt:2d}] ERROR  {key}={value[:30]}  ({str(e)})\n", "error")
+                        text_output.insert(tk.END, f"[{attempt}] ERROR: {str(e)}\n", "error")
 
                     text_output.see(tk.END)
                     root.update_idletasks()
                     time.sleep(0.35)
 
-                if attempt >= ATTEMPT_COUNT * 2:
-                    break
-
-        text_output.insert(tk.END, "Fuzzing finished.\n\n", "header")
+        text_output.insert(tk.END, "Fuzzing finished.\n", "header")
 
 
     btn_frame = ttk.Frame(container)
@@ -410,7 +339,7 @@ def start_checking():
 # ────────────────────────────────────────────────
 
 root = tk.Tk()
-root.title("Requests V1.2")
+root.title("Requests V1.3")
 root.geometry("1080x740")
 
 frame_top = ttk.Frame(root, padding=12)
