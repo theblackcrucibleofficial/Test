@@ -55,8 +55,8 @@
                 // Clear any previous error messages on success
                 msg.textContent = ""; 
             } else {
-                // We use Base64 or obfuscation so the fuzzer doesn't see "Try again" in the source
-                const err = atob("VHJ5IGFnYWluOg=="); // This decodes to "Try again:"
+            //test
+                const err = atob("VHJ5IGFnYWluOg==");
                 msg.textContent = err;
                 document.getElementById('passInput').value = "";
             }
