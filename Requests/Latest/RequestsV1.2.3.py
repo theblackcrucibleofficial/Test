@@ -339,7 +339,7 @@ def start_checking():
 # ────────────────────────────────────────────────
 
 root = tk.Tk()
-root.title("Requests V1.3")
+root.title("Requests V1.2.3")
 root.geometry("1080x740")
 
 frame_top = ttk.Frame(root, padding=12)
