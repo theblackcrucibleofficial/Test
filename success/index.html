@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Success</title>
+    <title>Protected Area</title>
     <style>
-        body { background: #27ae60; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        #secretContent { display: none; }
+        body { background: #2c3e50; color: white; font-family: sans-serif; text-align: center; padding-top: 100px; }
+        #content { display: none; }
     </style>
 </head>
 <body>
-    <div id="mask"><h1>Validating Session...</h1></div>
-    
-    <div id="secretContent">
-        <h1>ACCESS GRANTED</h1>
-        <p>Welcome, Administrator.</p>
-    </div>
+    <div id="lock"><h1>403 - Forbidden Area</h1><p>Manual entry is restricted.</p></div>
+    <div id="content"><h1>ACCESS GRANTED</h1><p>Sensitive data unlocked.</p></div>
 
     <script>
-        // Only shows the content if the URL ends in #authorized
+        // Only reveals if accessed via the tool's success logic (#authorized)
         if(window.location.hash === "#authorized") {
-            document.getElementById('mask').style.display = "none";
-            document.getElementById('secretContent').style.display = "block";
-        } else {
-            document.getElementById('mask').innerHTML = "<h1>403 - Forbidden</h1>";
+            document.getElementById('lock').style.display = "none";
+            document.getElementById('content').style.display = "block";
         }
     </script>
 </body>
