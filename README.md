@@ -1,3 +1,4 @@
+
 #                                     DISCLAIMER                                       
                                                                                       
   This software is provided for EDUCATIONAL AND RESEARCH PURPOSES ONLY.               
@@ -8,7 +9,8 @@
                                                                                       
   The user is 100% responsible for their actions. Always ensure you have explicit,     
   written permission before testing the security of any system or network.            
-#                                                                                    
+
+#
 
 # Requests V1.2 - URL Connectivity & Response Tester
 
@@ -25,10 +27,10 @@ A specialized Python tool designed for developers and security researchers to an
 
 This guide explains how to discover the hidden directory and verify credentials on the target site.
 
-### 1. Identify Target IDs
-Using the browser Inspector on the target site, we have identified the following input IDs:
-- Username field: `userInput`
-- Password field: `passInput`
+### 1. Identify Target Placeholders
+Using the browser Inspector on the target site (https://theblackcrucibleofficial.github.io/Test/), we identified the placeholders for the input boxes:
+- Username field placeholder: "Username"
+- Password field placeholder: "Password"
 
 ### 2. Discovering the Account Path
 1. Set the **Base URL** in the tool to: `https://theblackcrucibleofficial.github.io/Test/`
@@ -38,15 +40,16 @@ Using the browser Inspector on the target site, we have identified the following
 
 ### 3. Configuring the Credential Test
 In the Configuration Window for the `/account/` path:
-1. **BOX 1 (Parameter):** Enter `userInput` (this targets the username field).
-2. **BOX 2 (Values):** Provide your password list or choose a preset.
+1. **BOX 1 (Parameter):** Enter `username` (matching the "Username" placeholder logic).
+2. **BOX 2 (Values):** Enter the values for the "Password" placeholder box.
 3. **Flag / Retry Condition:** Enter `Try again:` into the text box.
-   - This tells the tool: "If the response contains 'Try again:', the login failed."
+   - This tells the tool: "If the response contains 'Try again:', the login attempt failed."
 
 ### 4. Running the Test
 1. Click **Save**, then click **Test / Fuzz**.
-2. When the tool sends the correct credentials (`admin` and `password123`), the "Try again:" text will not be found in the response.
-3. The tool will then swap the status to **[CORRECT]** in Gold Impact Bold.
+2. The tool will input the username and password into the respective boxes based on the site's placeholders.
+3. When the tool sends the correct credentials (`admin` and `password123`), the "Try again:" text will not be found in the response.
+4. The tool will then swap the status to **[CORRECT]** in Gold Impact Bold.
 
 ## Legal and Ethical Warning
 This tool is strictly for educational and authorized testing purposes. The author assumes no liability for misuse.
