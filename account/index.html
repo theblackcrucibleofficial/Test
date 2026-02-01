@@ -4,54 +4,35 @@
     <meta charset="UTF-8">
     <title>System Login</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f4f9;
-            transition: background-color 0.6s ease; 
-            display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; 
-        }
-        #loginBox { 
-            padding: 30px; border-radius: 12px; background: white; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
-        }
-        input { display: block; margin: 15px 0; padding: 12px; width: 220px; border: 1px solid #ddd; border-radius: 6px; }
-        button { 
-            width: 100%; padding: 12px; cursor: pointer; background: #333; color: white; 
-            border: none; border-radius: 6px; font-weight: bold; 
-        }
-        button:hover { background: #555; }
-        #message { color: #e74c3c; margin-top: 15px; font-weight: bold; min-height: 20px; }
-        .success-content { display: none; color: white; text-align: center; font-size: 3rem; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f9; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        #loginBox { padding: 30px; border-radius: 12px; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .hidden { display: none; }
     </style>
 </head>
 <body id="pageBody">
-
     <div id="loginBox">
-        <h2 style="margin-top:0;">Secure Access</h2>
-        <input type="text" id="userInput" placeholder="Username">
-        <input type="password" id="passInput" placeholder="Password">
-        <button onclick="validate()">Login</button>
-        <p id="message"></p>
-    </div>
-
-    <div id="successContent" class="success-content">
-        <h1>ACCESS GRANTED</h1>
+        <h2>Secure Access</h2>
+        <p id="message" style="color:red;"></p>
+        <p>Please use the tool to authenticate.</p>
     </div>
 
     <script>
-        function validate() {
-            const u = document.getElementById('userInput').value;
-            const p = document.getElementById('passInput').value;
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const u = params.get('username');
+            const p = params.get('Password');
             const msg = document.getElementById('message');
 
             if (u === "admin" && p === "password123") {
-        // SUCCESS: Remove the login box entirely from the HTML
-                document.body.innerHTML = "<div id='success'><h1>ACCESS GRANTED</h1></div>";
-            } else {
-        // FAILURE: Keep the login box and add the error text
+                // SUCCESS: This rewrites the page source for the Python tool
+                document.body.innerHTML = "<h1>ACCESS GRANTED</h1>";
+                document.body.style.backgroundColor = "#27ae60";
+                document.body.style.color = "white";
+            } else if (u || p) {
+                // FAILURE: This places the flag in the source code
                 msg.textContent = "Try again:";
-    }
-}
+            }
+        };
     </script>
 </body>
 </html>
