@@ -1,16 +1,14 @@
-########################################################################################
-#                                     DISCLAIMER                                       #
-#                                                                                      #
-#  This software is provided for EDUCATIONAL AND RESEARCH PURPOSES ONLY.               #
-#  The author does not condone, encourage, or support the use of this tool for:        #
-#  - Brute-forcing passwords or unauthorized access to systems.                        #
-#  - Performing Denial of Service (DoS) or Distributed Denial of Service (DDoS) attacks. #
-#  - Any form of illegal cyber activity or disruption of services.                     #
-#                                                                                      #
-#  The user is 100% responsible for their actions. Always ensure you have explicit,     #
-#  written permission before testing the security of any system or network.            #
-#                                                                                      #
-########################################################################################
+#                                     DISCLAIMER                                       
+                                                                                      
+  This software is provided for EDUCATIONAL AND RESEARCH PURPOSES ONLY.               
+  The author does not condone, encourage, or support the use of this tool for:        
+  - Brute-forcing passwords or unauthorized access to systems.                        
+  - Performing Denial of Service (DoS) or Distributed Denial of Service (DDoS) attacks. 
+  - Any form of illegal cyber activity or disruption of services.                     
+                                                                                      
+  The user is 100% responsible for their actions. Always ensure you have explicit,     
+  written permission before testing the security of any system or network.            
+#                                                                                    
 
 # Requests V1.2 - URL Connectivity & Response Tester
 
