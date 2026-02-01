@@ -1,38 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>System Login</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f9; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; transition: background 0.3s; }
-        #loginBox { padding: 30px; border-radius: 12px; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        input { display: block; margin: 15px auto; padding: 10px; width: 200px; }
-    </style>
-</head>
-<body id="pageBody">
-    <div id="loginBox">
-        <h2>Secure Access</h2>
-        <input type="text" id="uIn" placeholder="Username">
-        <input type="password" id="pIn" placeholder="Password">
-        <button onclick="window.location.search = '?username='+document.getElementById('uIn').value+'&Password='+document.getElementById('pIn').value">Login</button>
-        <p id="message" style="color:red; font-weight:bold; margin-top:10px;"></p>
-    </div>
+<script>
+    window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        const u = params.get('username');
+        const p = params.get('Password');
+        const msg = document.getElementById('message');
 
-    <script>
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const u = params.get('username');
-            const p = params.get('Password');
-            const msg = document.getElementById('message');
-
-            if (u === "admin" && p === "password123") {
-                document.body.innerHTML = "<h1>ACCESS GRANTED</h1>";
-                document.body.style.backgroundColor = "#27ae60";
-                document.body.style.color = "white";
-            } else if (u || p) {
-                msg.textContent = "Try again:";
-            }
-        };
-    </script>
-</body>
-</html>
+        // Logic to check credentials
+        if (u === "admin" && p === "password123") {
+            // REDIRECT: Change 'protected.html' to the actual name of your second file
+            window.location.href = "protected.html#authorized";
+        } else if (u || p) {
+            msg.textContent = "Invalid Credentials. Try again:";
+        }
+    };
+</script>
