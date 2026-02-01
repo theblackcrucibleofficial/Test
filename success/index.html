@@ -1,38 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>System Login</title>
+    <title>Success</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f9; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        #loginBox { padding: 30px; border-radius: 12px; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        .hidden { display: none; }
+        body { background: #27ae60; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        #secretContent { display: none; }
     </style>
 </head>
-<body id="pageBody">
-    <div id="loginBox">
-        <h2>Secure Access</h2>
-        <p id="message" style="color:red;"></p>
-        <p>Please use the tool to authenticate.</p>
+<body>
+    <div id="mask"><h1>Validating Session...</h1></div>
+    
+    <div id="secretContent">
+        <h1>ACCESS GRANTED</h1>
+        <p>Welcome, Administrator.</p>
     </div>
 
     <script>
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const u = params.get('username');
-            const p = params.get('Password');
-            const msg = document.getElementById('message');
-
-            if (u === "admin" && p === "password123") {
-                // SUCCESS: This rewrites the page source for the Python tool
-                document.body.innerHTML = "<h1>ACCESS GRANTED</h1>";
-                document.body.style.backgroundColor = "#27ae60";
-                document.body.style.color = "white";
-            } else if (u || p) {
-                // FAILURE: This places the flag in the source code
-                msg.textContent = "Try again:";
-            }
-        };
+        // Only shows the content if the URL ends in #authorized
+        if(window.location.hash === "#authorized") {
+            document.getElementById('mask').style.display = "none";
+            document.getElementById('secretContent').style.display = "block";
+        } else {
+            document.getElementById('mask').innerHTML = "<h1>403 - Forbidden</h1>";
+        }
     </script>
 </body>
 </html>
