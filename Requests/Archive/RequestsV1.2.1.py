@@ -12,6 +12,11 @@
 #  written permission before testing the security of any system or network.              #
 #                                                                                        #
 ##########################################################################################
+#                                     DISCLAIMER                                         #
+#                               THIS VERSION DOESN"T WORK                                #
+#                                                                                        #
+##########################################################################################
+
 
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox, filedialog
