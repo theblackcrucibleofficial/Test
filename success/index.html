@@ -1,11 +1,34 @@
-<script>
-    // 1. Check if the hash is present
-    if (window.location.hash === "#authorized") {
-        document.getElementById('lock').style.display = "none";
-        document.getElementById('content').style.display = "block";
-    } else {
-        // 2. If NOT authorized, show an alert and send them back to login
-        alert("Access Denied: You must login first.");
-        window.location.href = "login.html"; // Change to your login filename
-    }
-</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Protected Area</title>
+    <style>
+        body { background: #2c3e50; color: white; font-family: sans-serif; text-align: center; padding-top: 100px; }
+        #content { display: none; }
+        #lock { display: block; }
+    </style>
+</head>
+<body>
+    <div id="lock">
+        <h1>403 - Forbidden Area</h1>
+        <p>Manual entry is restricted. Redirecting to login...</p>
+    </div>
+
+    <div id="content">
+        <h1>ACCESS GRANTED</h1>
+        <p>Welcome, Admin. Sensitive data unlocked.</p>
+    </div>
+
+    <script>
+        // Check if the URL ends in #authorized
+        if (window.location.hash === "#authorized") {
+            document.getElementById('lock').style.display = "none";
+            document.getElementById('content').style.display = "block";
+            document.body.style.background = "#27ae60"; // Turn green on success
+        } else {
+            // If someone tries to go to /success/ without the hash, send them away
+            window.location.href = "../index.html"; 
+        }
+    </script>
+</body>
+</html>
