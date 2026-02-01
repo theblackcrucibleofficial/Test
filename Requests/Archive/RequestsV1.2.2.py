@@ -11,6 +11,10 @@
 #  written permission before testing the security of any system or network.              #
 #                                                                                        #
 ##########################################################################################
+#                                     DISCLAIMER                                         #
+#                               THIS VERSION DOESN"T WORK                                #
+#                                                                                        #
+##########################################################################################
 
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox, filedialog
@@ -438,5 +442,6 @@ text_output.tag_config("header", foreground="#1E90FF", font=("Consolas", 11, "bo
 text_output.tag_config("gold",   foreground="#D4AF37", font=("Impact", 11, "bold"))
 
 text_output.tag_bind("ok", "<Button-1>", on_line_click)
+
 
 root.mainloop()
