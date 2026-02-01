@@ -43,23 +43,15 @@
             const u = document.getElementById('userInput').value;
             const p = document.getElementById('passInput').value;
             const msg = document.getElementById('message');
-            
-            // Credentials
-            const sU = "admin";
-            const sP = "password123";
 
-            if (u === sU && p === sP) {
-                document.getElementById('pageBody').style.backgroundColor = "#27ae60";
-                document.getElementById('loginBox').style.display = "none";
-                document.getElementById('successContent').style.display = "block";
-                msg.textContent = ""; 
+            if (u === "admin" && p === "password123") {
+        // SUCCESS: Remove the login box entirely from the HTML
+                document.body.innerHTML = "<div id='success'><h1>ACCESS GRANTED</h1></div>";
             } else {
-                // We removed atob so the fuzzer can read the text directly in the script
-                const err = "Try again:"; 
-                msg.textContent = err;
-                document.getElementById('passInput').value = "";
-            }
-        }
+        // FAILURE: Keep the login box and add the error text
+                msg.textContent = "Try again:";
+    }
+}
     </script>
 </body>
 </html>
